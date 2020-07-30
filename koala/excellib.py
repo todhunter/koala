@@ -172,10 +172,20 @@ def concatenate(*args):
     cat_string = ''.join(str(a) for a in args)
 
     if len(cat_string) > CELL_CHARACTER_LIMIT:
-        return ExcelError('#VALUE', 'Too long. concatentaed string should be no longer than %s but is %s' % (CELL_CHARACTER_LIMIT, len(cat_String)))
+        return ExcelError('#VALUE', 'Too long. concatentaed string should be no longer than %s but is %s' % (CELL_CHARACTER_LIMIT, len(cat_string)))
 
     return cat_string
 
+def substitute(*args):
+    if tuple(flatten(args)) != args:
+        return ExcelError('#VALUE', 'Could not process arguments %s' % (args))
+
+    cat_string = str(args[0]).replace(str(args[1]), str(args[2]))
+    
+    if len(cat_string) > CELL_CHARACTER_LIMIT:
+        return ExcelError('#VALUE', 'Too long. substituted string should be no longer than %s but is %s' % (CELL_CHARACTER_LIMIT, len(cat_string)))
+
+    return cat_string
 
 def count(*args): # Excel reference: https://support.office.com/en-us/article/COUNT-function-a59cd7fc-b623-4d93-87a4-d23bf411294c
     l = list(args)
